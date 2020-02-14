@@ -68,7 +68,7 @@ def procXml(gpxPath):
     tcxDir = os.path.abspath('./tcxs')
     if not os.path.exists(tcxDir):
         os.mkdir(tcxDir)
-    tcxPath = os.path.join(tcxDir, gpxPath[:7]) + '.tcx'
+    tcxPath = os.path.join(tcxDir, gpxPath[:8]) + '.tcx'
     with open(tcxPath, 'w') as f:
         f.write(data)
         f.close()

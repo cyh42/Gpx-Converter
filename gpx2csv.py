@@ -128,7 +128,7 @@ def procXml(filePath, gpxPath):
     csvDir = os.path.abspath('./csv')
     if not os.path.exists(csvDir):
         os.mkdir(csvDir)
-    csvPath = os.path.join(csvDir, gpxPath) + '.csv'
+    csvPath = os.path.join(csvDir, gpxPath[:8]) + '.csv'
     with open(csvPath, 'w') as f:
         f.write(data)
         f.close()

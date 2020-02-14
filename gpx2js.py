@@ -131,7 +131,7 @@ def procXml(filePath, gpxPath):
     jsDir = os.path.abspath('./js')
     if not os.path.exists(jsDir):
         os.mkdir(jsDir)
-    jsonPath = os.path.join(jsDir, gpxPath) + '.js'
+    jsonPath = os.path.join(jsDir, gpxPath[:8]) + '.js'
     with open(jsonPath, 'w') as f:
         f.write(data)
         f.close()

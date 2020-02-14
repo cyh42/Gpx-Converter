@@ -61,7 +61,7 @@ def procXml(filePath, gpxPath):
     dom_tree = xdom.parse(os.path.join(filePath, gpxPath))
     collection = dom_tree.documentElement
     trkpts = collection.getElementsByTagName("trkpt")
-    data = '{"line_id":"' + gpxPath[31:39] + '","lnglat":['
+    data = '{"line_id":"' + gpxPath[:8] + '","lnglat":['
     i = 0
     for trkpt in trkpts:
         i = i + 1
@@ -78,7 +78,7 @@ def procXml(filePath, gpxPath):
     jsonDir = os.path.abspath('./jsons')
     if not os.path.exists(jsonDir):
         os.mkdir(jsonDir)
-    jsonPath = os.path.join(jsonDir, gpxPath) + '.json'
+    jsonPath = os.path.join(jsonDir, gpxPath[:8]) + '.json'
     with open(jsonPath, 'w') as f:
         f.write(data)
         f.close()
