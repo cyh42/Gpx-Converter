@@ -34,41 +34,39 @@ def procXml(gpxPath):
     S = input('Seconds:')
     TotalTimeSeconds = 60 * int(M) + int(S)
 
-    data = '<?xml version="1.0" encoding="UTF-8"?>\n' \
-           '<!-- Created by FitnessSyncer.com -->\n' \
-           '<TrainingCenterDatabase xsi:schemaLocation="' \
-           'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 ' \
-           'http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd" xmlns:ns5="' \
-           'http://www.garmin.com/xmlschemas/ActivityGoals/v1" xmlns:ns3="' \
-           'http://www.garmin.com/xmlschemas/ActivityExtension/v2" xmlns:ns2="' \
-           'http://www.garmin.com/xmlschemas/UserProfile/v2" xmlns="' \
-           'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" xmlns:xsi="' \
-           'http://www.w3.org/2001/XMLSchema-instance">\n' \
+    data = '<?xml version="1.0"?>\n' \
+           '<TrainingCenterDatabase xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2">\n' \
            '<Activities>\n' \
-           '<Activity Sport="Running"><Id>' + time[0] + '</Id><Lap StartTime="' + time[0] + '"><TotalTimeSeconds>'\
-           + str(TotalTimeSeconds) + '</TotalTimeSeconds><DistanceMeters>'\
-           + input('Distance:') + '</DistanceMeters><Intensity>Active</Intensity><Cadence>'\
-           + str(RunCadence[len(RunCadence)-1]) + '</Cadence><TriggerMethod>Manual</TriggerMethod><Track>'
+           '<Activity Sport="Running">\n' \
+           '<Id>' + time[0] + '</Id>\n' \
+            '<Lap StartTime="' + time[0] + '">\n' \
+            '<TotalTimeSeconds>' + str(TotalTimeSeconds) + '</TotalTimeSeconds>\n' \
+            '<DistanceMeters>' + input('Distance:') + '</DistanceMeters>\n' \
+            '<Calories>' + input('Calories:') + '</Calories>\n' \
+            '<Intensity>Active</Intensity>\n' \
+            '<TriggerMethod>Manual</TriggerMethod>\n' \
+            '<Track>\n'
 
     for i in range(len(alt)):
-        data = data + '<Trackpoint><Time>' + time[i+1] + '</Time><Position><LatitudeDegrees>'\
-           + str(lats[i]) + '</LatitudeDegrees><LongitudeDegrees>' \
-           + str(lons[i]) + '</LongitudeDegrees></Position><AltitudeMeters>' \
-           + alt[i] + '</AltitudeMeters></Trackpoint>'
+        data = data + '<Trackpoint>\n' \
+                      '<Time>' + time[i+1] + '</Time>\n' \
+                        '<Position>\n' \
+                        '<LatitudeDegrees>' + str(lats[i]) + '</LatitudeDegrees>\n' \
+                        '<LongitudeDegrees>' + str(lons[i]) + '</LongitudeDegrees>\n' \
+                        '</Position>\n' \
+                        '<AltitudeMeters>' + alt[i] + '</AltitudeMeters>\n' \
+                        '</Trackpoint>\n'
 
-        # if i > 0:
-        #    data = data + '<Extensions><TPX xmlns="http://www.garmin.com/xmlschemas/ActivityExtension/v2"><RunCadence>'\
-        #           + str(RunCadence[i-1]) + '</RunCadence></TPX></Extensions></Trackpoint>'
-
-    data = data + '</Track></Lap>\n' \
-                  '</Activity></Activities>\n' \
-                  '<Author xsi:type="Application_t"><Name>FitnessSyncer.com</Name><Build><Version><VersionMajor>1</VersionMajor><VersionMinor>0</VersionMinor><BuildMajor>0</BuildMajor><BuildMinor>0</BuildMinor></Version></Build><LangID>en</LangID><PartNumber>000-00000-00</PartNumber></Author>\n' \
+    data = data + '</Track>\n' \
+                  '</Lap>\n' \
+                  '</Activity>\n' \
+                  '</Activities>\n' \
                   '</TrainingCenterDatabase>'
 
     tcxDir = os.path.abspath('./tcxs')
     if not os.path.exists(tcxDir):
         os.mkdir(tcxDir)
-    tcxPath = os.path.join(tcxDir, gpxPath[:8]) + '.tcx'
+    tcxPath = os.path.join(tcxDir, gpxPath) + '.tcx'
     with open(tcxPath, 'w') as f:
         f.write(data)
         f.close()
@@ -77,3 +75,4 @@ filePath = os.path.abspath('./gpxs')
 fileList = os.listdir(filePath)
 for gpxPath in fileList:
     procXml(gpxPath)
+input('按任意键结束')
