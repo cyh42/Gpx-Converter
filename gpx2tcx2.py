@@ -3,7 +3,8 @@ import os
 
 def procXml(gpxPath):
     print(gpxPath)
-    f = open(gpxPath, 'r')
+    filePath = './gpxs/' + gpxPath
+    f = open(filePath, 'r')
     data = f.readlines()
     f.close()
 
