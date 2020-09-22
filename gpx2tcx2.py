@@ -28,13 +28,13 @@ def procXml(gpxPath):
         '<Track>\n'
 
     i = 0
+    lat, lon = '', ''
     for line in data:
-        lat, lon = '', ''
         i = i + 1
         if re.match('<trkpt', line):
             text = text + '<Trackpoint>\n'
-            lat = re.findall('lat="(.*)"', line)
-            lon = re.findall('lon="(.*)"', line)
+            lat = re.findall('lat="(.*)" lon', line)[0]
+            lon = re.findall('lon="(.*)">', line)[0]
 
         if re.findall('<time>(.*)</time>', line) and i > 8:
             text = text + '<Time>' + re.findall('<time>(.*)</time>', line)[0] + '</Time>\n' \
@@ -42,6 +42,7 @@ def procXml(gpxPath):
                             '<LatitudeDegrees>' + str(lat) + '</LatitudeDegrees>\n' \
                             '<LongitudeDegrees>' + str(lon) + '</LongitudeDegrees>\n' \
                             '</Position>\n'
+            lat, lon = '', ''
 
         if re.match('<ele>', line):
             text = text + '<AltitudeMeters>' + re.findall('<ele>(.*)</ele>', line)[0] + '</AltitudeMeters>\n'
